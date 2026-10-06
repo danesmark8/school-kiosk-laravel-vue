@@ -29,6 +29,7 @@
             </div>
             <h1 class="display-6 fw-bold text-dark">Welcome, {{ $student->first_name }}!</h1>
             <p class="text-muted fs-5">Please select the transaction or inquiry service you wish to perform.</p>
+
         @else
             <h1 class="display-5 fw-bold text-dark">Welcome to the Campus Kiosk</h1>
             <p class="text-muted fs-5">Tap a service below to get started. Academic & financial inquiries require your Student ID & PIN.</p>
