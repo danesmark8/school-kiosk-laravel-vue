@@ -42,3 +42,4 @@ Route::prefix('kiosk')->name('kiosk.')->middleware(['kiosk.nocache', 'kiosk.time
             ->name('queue.store');
     });
 });
+require __DIR__.'/admin.php';

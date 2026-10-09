@@ -29,6 +29,7 @@ class KioskQueueController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // Validate incoming request
         $data = $request->validate([
             'service_id' => 'required|exists:services,id',
         ]);
@@ -36,7 +37,17 @@ class KioskQueueController extends Controller
         $service = Service::findOrFail($data['service_id']);
         $student = auth('student')->user();
 
-        // Determine daily sequence for this service
+        // Prevent duplicate active tickets for this student and service
+        $existing = QueueTicket::where('student_id', $student->id)
+            ->where('service_id', $service->id)
+            ->whereNotIn('status', ['completed', 'cancelled'])
+            ->first();
+        if ($existing) {
+            return redirect()->back()
+                ->with('warning', 'You already have an active ticket for this service.');
+        }
+
+        // Determine daily sequence for this service (reset each day)
         $dailySequence = QueueTicket::whereDate('created_at', now()->toDateString())
             ->where('service_id', $service->id)
             ->count() + 1;

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AuthenticateStudent;
+use App\Http\Middleware\EnsureUserHasRole;
 use App\Http\Middleware\KioskSessionTimeout;
 use App\Http\Middleware\PreventBackHistory;
 use Illuminate\Foundation\Application;
@@ -19,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'kiosk.timeout' => KioskSessionTimeout::class,
             'kiosk.auth' => AuthenticateStudent::class,
             'kiosk.nocache' => PreventBackHistory::class,
+            'admin' => EnsureUserHasRole::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
